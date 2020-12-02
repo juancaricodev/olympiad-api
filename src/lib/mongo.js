@@ -1,10 +1,10 @@
 const { MongoClient, ObjectId } = require('mongodb')
-const { get } = require('mongoose')
 const { config } = require('../config')
 
 const USER = encodeURIComponent(config.dbUser)
 const PASSWORD = encodeURIComponent(config.dbPassword)
 const DB_NAME = config.dbName
+// const HOST = config.dbHost
 
 const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@olympiad.ooblw.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
 
@@ -17,12 +17,14 @@ class MongoLib {
   connect() {
     if (!MongoLib.connection) {
       MongoLib.connection = new Promise((resolve, reject) => {
-        if (err) {
-          reject(err)
-        }
+        this.client.connect(err => {
+          if (err) {
+            reject(err)
+          }
 
-        console.log('Connected successfully to Mongo')
-        resolve(this.client.db(this.dbName))
+          console.log('Connected successfully to Mongo')
+          resolve(this.client.db(this.dbName))
+        })
       })
     }
 
@@ -30,9 +32,9 @@ class MongoLib {
   }
 
   // MongoDB Action Methods
-  getAll(collection, query) {
+  getAll(collection) {
     return this.connect().then(db => {
-      return db.collection(collection).find(query).toArray()
+      return db.collection(collection).find().toArray()
     })
   }
 
