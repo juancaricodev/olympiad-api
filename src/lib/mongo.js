@@ -1,5 +1,4 @@
 const { MongoClient, ObjectId } = require('mongodb')
-const { connect } = require('mongoose')
 const { config } = require('../config')
 
 const USER = encodeURIComponent(config.dbUser)
