@@ -7,8 +7,6 @@ const DB_NAME = config.dbName
 const HOST = config.dbHost
 
 const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@${HOST}/${DB_NAME}?retryWrites=true&w=majority`
-// const MONGO_URI = `mongodb+srv://${config.dbUser}:${config.dbPassword}@olympiad.ooblw.mongodb.net/${config.dbName}?retryWrites=true&w=majority`
-// const MONGO_URI = `mongodb+srv://admin:u5b6W7Peg5LvPBUx@olympiad.ooblw.mongodb.net/olympiad?retryWrites=true&w=majority`
 
 class MongoLib {
   constructor() {
