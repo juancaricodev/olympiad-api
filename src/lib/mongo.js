@@ -65,13 +65,16 @@ class MongoLib {
   // MongoDB Action Methods for Scores
   getStudentScores(collection, id) {
     return this.connect().then(db => {
-      // return db.collection(collection).find({ _id: ObjectId(id)}, {
-      //   scores: { $all: ['statistics', 'sets', 'equations'] }
-      // }).toArray()
       return db.collection(collection).find({ _id: ObjectId(id)}, {
         'scores.statistics': true, 'scores.sets': true, 'scores.equations': true
       }).toArray()
     })
+  }
+
+  createStudentScore(collection, id, data) {
+    return this.connect().then(db => {
+      return db.collection(collection).updateOne({ _id: ObjectId(id) }, { $push: { scores: data } }, { upsert: true })
+    }).then(result => result.upsertedId || id)
   }
 }
 

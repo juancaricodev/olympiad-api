@@ -8,6 +8,7 @@ function studentsApi(app) {
   const scoresService = new ScoresService
 
   // Get student's scores
+  // FIXME: Pending a proper review on working
   router.get('/:studentId', async function(req, res, next) {
     const { studentId } = req.params
 
@@ -39,16 +40,17 @@ function studentsApi(app) {
     }
   })
 
-  // TODO: Create a student's score
-  router.post('/', async function(req, res, next) {
+  // Create a student's score
+  router.post('/:studentId', async function(req, res, next) {
+    const { studentId } = req.params
     const { body: score } = req
 
     try {
-      const createdScoreId = await scoresService.createScore({ score })
+      const createdScoreId = await scoresService.createScore({ studentId, score })
 
-      res.status(201).json({
+      res.status(200).json({
         data: createdScoreId,
-        message: 'score created'
+        message: `score created for student: ${studentId}`
       })
     } catch(err) {
       next(err)
