@@ -61,6 +61,18 @@ class MongoLib {
       return db.collection(collection).deleteOne({ _id: ObjectId(id) })
     }).then(() => id)
   }
+
+  // MongoDB Action Methods for Scores
+  getStudentScores(collection, id) {
+    return this.connect().then(db => {
+      // return db.collection(collection).find({ _id: ObjectId(id)}, {
+      //   scores: { $all: ['statistics', 'sets', 'equations'] }
+      // }).toArray()
+      return db.collection(collection).find({ _id: ObjectId(id)}, {
+        'scores.statistics': true, 'scores.sets': true, 'scores.equations': true
+      }).toArray()
+    })
+  }
 }
 
 module.exports = MongoLib
