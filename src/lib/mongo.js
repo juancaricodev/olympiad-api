@@ -71,10 +71,22 @@ class MongoLib {
     })
   }
 
+  //TODO:
+  getStudentScore(){}
+
   createStudentScore(collection, id, data) {
     return this.connect().then(db => {
       return db.collection(collection).updateOne({ _id: ObjectId(id) }, { $push: { scores: data } }, { upsert: true })
     }).then(result => result.upsertedId || id)
+  }
+
+  //TODO: WIP
+  updateStudentScore(collection, id, data){}
+
+  deleteStudentScore(collection, id, score) {
+    return this.connect().then(db => {
+      return db.collection(collection).update({ _id: ObjectId(id) }, { $pull: { 'scores': { 'name': { $in: [score] } } } })
+    }).then(() => id)
   }
 }
 

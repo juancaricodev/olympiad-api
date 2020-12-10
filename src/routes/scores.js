@@ -50,7 +50,7 @@ function studentsApi(app) {
 
       res.status(200).json({
         data: createdScoreId,
-        message: `score created for student: ${studentId}`
+        message: `score ${score.subject} created for student: ${studentId}`
       })
     } catch(err) {
       next(err)
@@ -74,16 +74,16 @@ function studentsApi(app) {
     }
   })
 
-  // TODO: Delete a student's score
-  router.delete('/:studentId', async function(req, res, next) {
-    const { studentId } = req.params
+  // Delete a student's score
+  router.delete('/:studentId/:score', async function(req, res, next) {
+    const { studentId, score } = req.params
 
     try {
-      const deletedStudentId = await scoresService.deleteStudent({ studentId })
+      const deletedStudentId = await scoresService.deleteScore({ studentId, score })
 
       res.status(200).json({
         data: deletedStudentId,
-        message: 'student deleted'
+        message: `score deleted: ${score}, from student: ${studentId}`
       })
     } catch(err) {
       next(err)

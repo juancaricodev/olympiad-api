@@ -18,7 +18,6 @@ class ScoresService {
     return score || {}
   }
 
-  // TODO: WIP
   async createScore({ studentId, score }) {
     const createdScoreId = await this.mongoDB.createStudentScore(this.collection, studentId, score)
     return createdScoreId
@@ -30,9 +29,8 @@ class ScoresService {
     return updatedScoreId
   }
 
-  // TODO:
-  async deleteScore({ scoreId }) {
-    const deletedScoreId = await this.mongoDB.delete(this.collection, scoreId)
+  async deleteScore({ studentId, score }) {
+    const deletedScoreId = await this.mongoDB.deleteStudentScore(this.collection, studentId, score)
     return deletedScoreId
   }
 }
