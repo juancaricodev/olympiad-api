@@ -95,6 +95,13 @@ class MongoLib {
       return db.collection(collection).update({ _id: ObjectId(id) }, { $pull: { 'scores': { 'name': { $in: [score] } } } })
     }).then(() => id)
   }
+
+  // TODO: Average
+  getStudentAverage(collection, id) {
+    return thid.connect().then(db => {
+      return db.collection(collection).find({ _id: ObjectId(id) })
+    })
+  }
 }
 
 module.exports = MongoLib
