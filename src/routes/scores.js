@@ -8,7 +8,6 @@ function studentsApi(app) {
   const scoresService = new ScoresService
 
   // Get student's scores
-  // FIXME: Pending a proper review on working
   router.get('/:studentId', async function(req, res, next) {
     const { studentId } = req.params
 
@@ -17,7 +16,7 @@ function studentsApi(app) {
 
       res.status(200).json({
         data: scores,
-        message: 'student\'s scores listed'
+        message: `scores listed for student: ${studentId}`
       })
     } catch(err) {
       next(err)
@@ -50,24 +49,24 @@ function studentsApi(app) {
 
       res.status(200).json({
         data: createdScoreId,
-        message: `score ${score.subject} created for student: ${studentId}`
+        message: `score of ${score.subject} created for student: ${studentId}`
       })
     } catch(err) {
       next(err)
     }
   })
 
-  // TODO: Edit a student's score
-  router.put('/:studentId', async function(req, res, next) {
-    const { studentId } = req.params
-    const { body: student } = req
+  // Edit a student's score - WIP
+  router.put('/:studentId/:subject', async function(req, res, next) {
+    const { studentId, subject } = req.params
+    const { body: data } = req
 
     try {
-      const updatedStudentId = await scoresService.updateStudent({ studentId, student })
+      const updatedScore = await scoresService.updateScore({ studentId, subject, data })
 
       res.status(200).json({
-        data: updatedStudentId,
-        message: 'student updated'
+        data: updatedScore,
+        message: `score of ${subject} updated for student: ${studentId}`
       })
     } catch(err) {
       next(err)
@@ -79,10 +78,10 @@ function studentsApi(app) {
     const { studentId, score } = req.params
 
     try {
-      const deletedStudentId = await scoresService.deleteScore({ studentId, score })
+      const deletedScore = await scoresService.deleteScore({ studentId, score })
 
       res.status(200).json({
-        data: deletedStudentId,
+        data: deletedScore,
         message: `score deleted: ${score}, from student: ${studentId}`
       })
     } catch(err) {

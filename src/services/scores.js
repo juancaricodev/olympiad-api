@@ -7,8 +7,7 @@ class ScoresService {
   }
 
   async getScores({ studentId }) {
-    const query = studentId
-    const Scores = await this.mongoDB.getStudentScores(this.collection, query)
+    const Scores = await this.mongoDB.getStudentScores(this.collection, studentId)
     return Scores || []
   }
 
@@ -23,10 +22,9 @@ class ScoresService {
     return createdScoreId
   }
 
-  // TODO:
-  async updateScore({ scoreId, score } = {}) {
-    const updatedScoreId = await this.mongoDB.update(this.collection, scoreId, score)
-    return updatedScoreId
+  async updateScore({ studentId, subject, data } = {}) {
+    const updatedScore = await this.mongoDB.updateStudentScore(this.collection, studentId, subject, data)
+    return updatedScore
   }
 
   async deleteScore({ studentId, score }) {
