@@ -69,11 +69,13 @@ class MongoLib {
     })
   }
 
-  //TODO:
   getStudentScore(collection, id, subject) {
-    return db.collection(collection).find({ _id: ObjectId(id)}, {
-      stores: { $all: [subject] }
-    }).toArray()
+    return this.connect().then(db => {
+      return db.collection(collection)
+      .find({ _id: ObjectId(id), 'scores.subject': subject })
+      .project({ 'scores.$': subject })
+      .toArray()
+    })
   }
 
   createStudentScore(collection, id, data) {

@@ -7,7 +7,7 @@ function studentsApi(app) {
 
   const scoresService = new ScoresService
 
-  // Get student's scores
+  // Get all scores of a student
   router.get('/:studentId', async function(req, res, next) {
     const { studentId } = req.params
 
@@ -23,16 +23,16 @@ function studentsApi(app) {
     }
   })
 
-  // TODO: Get student's one score only
-  router.get('/:studentId', async function(req, res, next) {
-    const { studentId } = req.params
+  // Get one score of a student
+  router.get('/:studentId/:subject', async function(req, res, next) {
+    const { studentId, subject } = req.params
 
     try {
-      const student = await scoresService.getStudent({ studentId })
+      const score = await scoresService.getScore({ studentId, subject })
 
       res.status(200).json({
-        data: student,
-        message: 'student listed'
+        data: score,
+        message: `score of ${subject} listed for student ${studentId}`
       })
     } catch(err) {
       next(err)

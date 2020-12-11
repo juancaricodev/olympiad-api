@@ -11,9 +11,8 @@ class ScoresService {
     return Scores || []
   }
 
-  // TODO:
-  async getScore({ scoreId }) {
-    const score = await this.mongoDB.get(this.collection, scoreId)
+  async getScore({ studentId, subject }) {
+    const score = await this.mongoDB.getStudentScore(this.collection, studentId, subject)
     return score || {}
   }
 
