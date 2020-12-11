@@ -6,7 +6,6 @@ class AverageService {
     this.mongoDB = new MongoLib()
   }
 
-  // TODO:
   async getAverage({ studentId }) {
     const Average = await this.mongoDB.getStudentAverage(this.collection, studentId)
     return Average || {}

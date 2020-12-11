@@ -7,7 +7,6 @@ function averageApi(app) {
 
   const averageService = new AverageService
 
-  // TODO:
   router.get('/:studentId', async function(req, res, next) {
     const { studentId } = req.params
 

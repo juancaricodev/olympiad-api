@@ -92,14 +92,19 @@ class MongoLib {
 
   deleteStudentScore(collection, id, score) {
     return this.connect().then(db => {
-      return db.collection(collection).update({ _id: ObjectId(id) }, { $pull: { 'scores': { 'name': { $in: [score] } } } })
+      return db.collection(collection).update({ _id: ObjectId(id) }, { $pull: { 'scores': { 'subject': { $in: [score] } } } })
     }).then(() => id)
   }
 
-  // TODO: Average
+  // Average Score
   getStudentAverage(collection, id) {
-    return thid.connect().then(db => {
-      return db.collection(collection).find({ _id: ObjectId(id) })
+    return this.connect().then(db => {
+      return db.collection(collection)
+      .aggregate([
+        { $unwind: '$scores' },
+        { $group: { _id: ObjectId(id), avgScore: { $avg: '$scores.score' } } }
+      ])
+      .toArray()
     })
   }
 }
